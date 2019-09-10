@@ -1,0 +1,22 @@
+{
+  "name": "transducer-101",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "measure:time": "node ./measure-time/index.js",
+    "report:time": "node ./measure-time/report/create-report.js",
+    "measure:gc": "node ./measure-gc/index.js",
+    "report:gc": "node ./measure-gc/report/create-report.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "benchmark": "^2.1.4",
+    "chalk": "^2.4.2",
+    "debug": "^4.1.1",
+    "ioredis": "^4.14.0",
+    "json2csv": "^4.5.2",
+    "lodash": "^4.17.15"
+  }
+}
