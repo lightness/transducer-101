@@ -1,4 +1,4 @@
-const { inc, isEven, double } = require("./constants");
+const { inc, isEven, double } = require("../constants");
 const _ = require("lodash");
 
 module.exports = function(arr) {

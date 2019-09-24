@@ -13,8 +13,11 @@ const loop = f => (from = 0, to = 10) => {
   return recursiveCall(from);
 };
 
+const toFixed = precision => n => Number.parseFloat(n.toFixed(precision));
+
 module.exports = {
   rnd,
   createArray,
   loop,
+  toFixed,
 };

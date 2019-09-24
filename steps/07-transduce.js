@@ -1,4 +1,4 @@
-const { inc, isEven, double } = require("./constants");
+const { inc, isEven, double } = require("../constants");
 
 const filterReducer = predicate => reducing => (acc, cur) =>
   predicate(cur) ? reducing(acc, cur) : acc;
@@ -15,7 +15,7 @@ const xform = compose(
   mapReducer(double)
 );
 
-const transduce = (xform, regucing, initial, arr) => arr.reduce(xform(reducing), initial);
+const transduce = (xform, reducing, initial, arr) => arr.reduce(xform(reducing), initial);
 
 module.exports = function(arr) {
   return transduce(xform, concat, [], arr);

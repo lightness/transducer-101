@@ -1,4 +1,4 @@
-const { inc, isEven, double } = require("./constants");
+const { inc, isEven, double } = require("../constants");
 const map = require("lodash/map");
 const filter = require("lodash/filter");
 

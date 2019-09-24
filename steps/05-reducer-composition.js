@@ -1,7 +1,8 @@
-const { arr, inc, isEven, double } = require("./constants");
+const { inc, isEven, double } = require("../constants");
 
 const filterReducer = predicate => reducing => (acc, cur) =>
   predicate(cur) ? reducing(acc, cur) : acc;
+
 const mapReducer = transform => reducing => (acc, cur) =>
   reducing(acc, transform(cur));
 
@@ -13,4 +14,6 @@ const composedReducer = mapReducer(inc)(
   )
 );
 
-console.log(arr.reduce(composedReducer, []));
+module.exports = function(arr) {
+  return arr.reduce(composedReducer, []);
+}

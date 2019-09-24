@@ -1,4 +1,4 @@
-const { inc, isEven, double } = require("./constants");
+const { inc, isEven, double } = require("../constants");
 
 module.exports = function(arr) {
   return arr

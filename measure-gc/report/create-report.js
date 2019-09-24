@@ -1,37 +1,50 @@
 const fs = require('fs');
 const { parse } = require('json2csv');
+const { toFixed } = require('../../util');
 const { fetch, getLastMeasured, disconnect } = require('../persistance');
+const maxHeapUsedMetric = require('./max-heap-used-metric');
+const sumGcTimeMetric = require('./sum-gc-time-metric');
 
-const getFileName = n => __dirname + `/out/report-${n}-${Date.now()}.csv`;
-
-const process = gcOutput => gcOutput
-  .match(/[^>] (\d+\.\d) \(/g)
-  .map(x => x.split(' ')[1])
-  .map(Number)
-  .reduce((acc, cur) => acc > cur ? acc : cur);
+const getFileName = n => __dirname + `/out/Report-${n}-${Date.now()}.csv`;
 
 async function createReport() {
   const N = await getLastMeasured();
   const data = [];
+  let cumulativeGcTimeDiff = 0;
 
   for (let i = 1; i <= N; i++) {
     console.log(`Fetching data for: ${i}`);
 
-    const [classic, transducer] = (await Promise.all([
+    const [classic, transducer] = await Promise.all([
       fetch(i, 'classic'),
       fetch(i, 'transducer'),
-    ])).map(process);
+    ]);
+
+    const [maxHeapSizeClassic, maxheapSizeTransducer] = [classic, transducer].map(maxHeapUsedMetric);
+    const [sumGcTimeClassic, sumGcTimeTransducer] = [classic, transducer].map(sumGcTimeMetric);
+
+    cumulativeGcTimeDiff += (sumGcTimeClassic - sumGcTimeTransducer);
 
     data.push({
       n: i, 
-      classic,
-      transducer,
+      maxHeapSizeClassic: toFixed(1)(maxHeapSizeClassic),
+      maxheapSizeTransducer: toFixed(1)(maxheapSizeTransducer),
+      sumGcTimeClassic: toFixed(1)(sumGcTimeClassic),
+      sumGcTimeTransducer: toFixed(1)(sumGcTimeTransducer),
+      cumulativeGcTimeDiff: toFixed(1)(cumulativeGcTimeDiff),
     });
   }
 
   const csv = parse(data, { 
-    fields: ['n', 'classic', 'transducer'],
-    header: false,
+    fields: [
+      'n', 
+      'maxHeapSizeClassic', 
+      'maxheapSizeTransducer', 
+      'sumGcTimeClassic', 
+      'sumGcTimeTransducer',
+      'cumulativeGcTimeDiff'
+    ],
+    header: process.env.HEADER !== 'false',
   });
   const fileName = getFileName(N);
 
