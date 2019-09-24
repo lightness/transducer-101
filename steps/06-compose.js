@@ -17,10 +17,6 @@ const composedReducer = compose(
   mapReducer(double)
 )(concat);
 
-// map(doble)(concat)
-// filter(isEven)(map(doble)(concat))
-// map(inc)(filter(isEven)(map(doble)(concat)))
-
 module.exports = function(arr) {
   return arr.reduce(composedReducer, []);
 }

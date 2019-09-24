@@ -2,6 +2,7 @@ const { inc, isEven, double } = require("../constants");
 
 const filterReducer = predicate => reducing => (acc, cur) =>
   predicate(cur) ? reducing(acc, cur) : acc;
+
 const mapReducer = transform => reducing => (acc, cur) =>
   reducing(acc, transform(cur));
 
