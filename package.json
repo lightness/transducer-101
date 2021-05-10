@@ -17,7 +17,7 @@
     "debug": "^4.1.1",
     "ioredis": "^4.14.0",
     "json2csv": "^4.5.2",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "transducers-js": "^0.4.174"
   }
 }
